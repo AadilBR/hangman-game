@@ -2,19 +2,21 @@ const { randomInt } = require('crypto')
 const fs = require('fs')
 const readlineSync = require('readline-sync')
 const chalk = require('chalk')
+const { intro } = require('./intro')
+const { hangmanPics } = require('./hangmanPics')
 
 
 
-
-let dico = fs.readFileSync('./dict.txt', 'utf-8').split('\n')
+let dico = fs.readFileSync('./dictionary.txt', 'utf-8').split('\n')
 //console.log(dico)
-let reponse = dico[randomInt(0, dico.length)]//retourner un mot au hasard du tableau
+let word = dico[randomInt(0, dico.length)]//retourner un mot au hasard du tableau
 //console.log(reponse)
-let secretWord = Array(reponse.length).fill('_')
-let nbtry = 10
+let secretWord = Array(word.length).fill('_')
+let nbtry = 9
 let inputHistory = []
-console.log(reponse)
+console.log(word)
 //console.log(secretWord)
+console.log(intro)
 
 while (nbtry > 0) {
 
@@ -24,34 +26,38 @@ while (nbtry > 0) {
   }
   if (inputHistory.includes(letterInput)) {
     console.log(`\n   Vous avez déjà tapé cette lettre !\n`)
+    continue
   }
   inputHistory.push(letterInput)
   console.log(`\nLettres déjà tapés :\n${inputHistory.join(' ')}`)
 
-  if (reponse.includes(letterInput)) {
+  if (word.includes(letterInput)) {
     console.log(chalk.cyan(`\n   yeah !!!\n`))
-    for (let i = 0; i < reponse.length; i++) {
-      if (reponse[i] === letterInput) {
+    for (let i = 0; i < word.length; i++) {
+      if (word[i] === letterInput) {
         secretWord[i] = letterInput
       }
     }
 
-  } else if (nbtry === 1) {
-    console.log(chalk.red(`\n   Attention ! C'est ta dernière chance.\n`))
-    nbtry--
-
   } else {
-    console.log(chalk.red(`\n   Il te reste ${nbtry} tentatives.\n`))
     nbtry--
+    if (nbtry > 1) {
+      console.log(chalk.red(`\n   Il te reste ${nbtry} tentatives.${hangmanPics[8 - nbtry]}\n`))
+    } else if (nbtry === 1) {
+      console.log(chalk.red(`\n   Attention ! C'est ta dernière chance.${hangmanPics[8 - nbtry]}\n`))
+
+    }
   }
 
   if (!nbtry) {
+    console.log(hangmanPics[8])
     console.log(chalk.magentaBright(`\n   Vous avez perdu !\n`))
+
     process.exit(0)
   }
 
   if (!secretWord.includes('_')) {
-    console.log(chalk.green(`\n   Bravo ! >>> ||  ${reponse}  ||\n`))
+    console.log(chalk.green(`\n   Bravo ! >>> ||  ${word}  ||\n`))
     process.exit(0)
 
   }
