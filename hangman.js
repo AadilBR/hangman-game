@@ -4,6 +4,8 @@ const readlineSync = require('readline-sync')
 const chalk = require('chalk')
 const { intro } = require('./intro')
 const { hangmanPics } = require('./hangmanPics')
+const { header } = require('./header')
+const { PlayerData } = require('./PlayerData')
 
 
 
@@ -16,7 +18,10 @@ let nbtry = 9
 let inputHistory = []
 console.log(word)
 //console.log(secretWord)
-console.log(intro)
+
+
+console.log(chalk.yellow(header))
+console.log(chalk.yellow(intro))
 
 while (nbtry > 0) {
 
@@ -40,24 +45,26 @@ while (nbtry > 0) {
     }
 
   } else {
+    //console.log(nbtry)
     nbtry--
     if (nbtry > 1) {
-      console.log(chalk.red(`\n   Il te reste ${nbtry} tentatives.${hangmanPics[8 - nbtry]}\n`))
+      //console.log(nbtry)
+      console.log(chalk.red(`\n   Il vous reste ${nbtry} tentatives.${hangmanPics[8 - nbtry]}\n`))
     } else if (nbtry === 1) {
-      console.log(chalk.red(`\n   Attention ! C'est ta dernière chance.${hangmanPics[8 - nbtry]}\n`))
+      console.log(chalk.magenta(`\n   Attention ! C'est votre dernière chance.${hangmanPics[8 - nbtry]}\n`))
 
     }
   }
 
   if (!nbtry) {
     console.log(hangmanPics[8])
-    console.log(chalk.magentaBright(`\n   Vous avez perdu !\n`))
-
+    console.log(chalk.magentaBright(`\n   Game Over !\n`))
+    console.log(`Le mot était : ${word}\n\n`)
     process.exit(0)
   }
 
   if (!secretWord.includes('_')) {
-    console.log(chalk.green(`\n   Bravo ! >>> ||  ${word}  ||\n`))
+    console.log(chalk.green(`\n   CONGLATURATIONS You Win ! >>> ||  ${word}  ||\n`))
     process.exit(0)
 
   }
