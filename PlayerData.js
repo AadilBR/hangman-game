@@ -1,9 +1,7 @@
 class PlayerData {
-  constructor(player, score) {
+  constructor(playerName, score) {
     this.playerName = playerName
     this.score = score
   }
 }
 
-
-exports.PlayerData = PlayerData

@@ -5,7 +5,6 @@ const chalk = require('chalk')
 const { intro } = require('./intro')
 const { hangmanPics } = require('./hangmanPics')
 const { header } = require('./header')
-const { PlayerData } = require('./PlayerData')
 
 
 
@@ -18,19 +17,21 @@ let nbtry = 9
 let inputHistory = []
 console.log(word)
 //console.log(secretWord)
-
+let score = 0
 
 console.log(chalk.yellow(header))
 console.log(chalk.yellow(intro))
+
+const playerName = readlineSync.question('Entrer votre nom ?  ')
 
 while (nbtry > 0) {
 
   let letterInput = readlineSync.question('\nDevinez le mot caché : ' + secretWord.join(' ') + ' ?  ').toUpperCase()
   if (letterInput.length !== 1) {
-    console.log(`\n   Vous ne pouvez proposer qu'une lettre à la fois\n`)
+    console.log(`\n   ${playerName}, vous ne pouvez proposer qu'une lettre à la fois !\n`)
   }
   if (inputHistory.includes(letterInput)) {
-    console.log(`\n   Vous avez déjà tapé cette lettre !\n`)
+    console.log(`\n  ${playerName}, vous avez déjà tapé cette lettre !\n`)
     continue
   }
   inputHistory.push(letterInput)
@@ -64,7 +65,7 @@ while (nbtry > 0) {
   }
 
   if (!secretWord.includes('_')) {
-    console.log(chalk.green(`\n   CONGLATURATIONS You Win ! >>> ||  ${word}  ||\n`))
+    console.log(chalk.yellow(`\n   CONGLATURATIONS ${playerName} You Win ! >>>  ${word}  \n`))
     process.exit(0)
 
   }
