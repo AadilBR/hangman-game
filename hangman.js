@@ -6,7 +6,7 @@ const { intro } = require('./intro')
 const { hangmanPics } = require('./hangmanPics')
 const { header } = require('./header')
 
-
+//do {
 
 let dico = fs.readFileSync('./dictionary.txt', 'utf-8').split('\n')
 //console.log(dico)
@@ -67,8 +67,7 @@ while (nbtry > 0) {
   if (!secretWord.includes('_')) {
     console.log(chalk.yellow(`\n   CONGLATURATIONS ${playerName} You Win ! >>>  ${word}  \n`))
     process.exit(0)
-
   }
 
 }
-
+//} while (readlineSync.keyInYN(`Voulez-vous rejouer ? `))
